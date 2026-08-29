@@ -63,15 +63,35 @@ const GITHUB_FOLDER = "files";
         <div class="tile-size">${fmtSize(item.size)}</div>
       </div>
       <div class="tile-name">${item.name}</div>
-      <a class="tile-dl" href="${item.download_url}" download="${item.name}">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-          <polyline points="7 10 12 15 17 10"/>
-          <line x1="12" y1="15" x2="12" y2="3"/>
-        </svg>
-        baixar
-      </a>
+      <div class="tile-actions">
+        <a class="tile-dl" href="${item.download_url}" download="${item.name}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          baixar
+        </a>
+        <button class="tile-copy" title="copiar link direto" data-url="${item.download_url}">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="9" y="9" width="13" height="13" rx="2"/>
+            <path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/>
+          </svg>
+        </button>
+      </div>
     `;
+
+    const copyBtn = tile.querySelector('.tile-copy');
+    copyBtn.addEventListener('click', async () => {
+      try{
+        await navigator.clipboard.writeText(copyBtn.dataset.url);
+        copyBtn.classList.add('copied');
+        setTimeout(() => copyBtn.classList.remove('copied'), 1400);
+      }catch(err){
+        // clipboard indisponível (ex: http sem https) — ignora silenciosamente
+      }
+    });
+
     cardsList.appendChild(tile);
     fileCount++;
     totalBytes += item.size;
