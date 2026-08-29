@@ -18,12 +18,14 @@ const GITHUB_FOLDER = "files";
 /* ============================================================ */
 
 (function(){
-  const cardsList  = document.getElementById('cardsList');
-  const emptyState = document.getElementById('emptyState');
-  const countPill  = document.getElementById('countPill');
+  const cardsList   = document.getElementById('cardsList');
+  const emptyState  = document.getElementById('emptyState');
+  const countPill   = document.getElementById('countPill');
+  const totalSizeEl = document.getElementById('totalSize');
   const statusBadge = document.getElementById('statusBadge');
 
   let fileCount = 0;
+  let totalBytes = 0;
 
   function fmtSize(bytes){
     if(bytes === 0) return '0 B';
@@ -44,38 +46,35 @@ const GITHUB_FOLDER = "files";
 
   function updateStatus(){
     countPill.textContent = fileCount;
-    statusBadge.textContent = fileCount === 0 ? 'pronto' : fileCount + ' arquivo(s)';
+    totalSizeEl.textContent = fileCount === 0 ? '—' : fmtSize(totalBytes);
+    statusBadge.textContent = fileCount === 0 ? 'sem arquivos' : 'ao vivo';
   }
 
-  function renderCard(item){
+  function renderCard(item, index){
     const ext = getExt(item.name);
 
-    const card = document.createElement('div');
-    card.className = 'card';
-    card.innerHTML = `
-      <div class="ftype">${ext.slice(0,4)}</div>
-      <div class="meta">
-        <div class="fname">${item.name}</div>
-        <div class="fsub">
-          <span>${fmtSize(item.size)}</span>
-          <span class="dot">·</span>
-          <span>do repositório</span>
-        </div>
+    const tile = document.createElement('div');
+    tile.className = 'tile';
+    tile.style.animationDelay = (index * 0.06) + 's';
+    tile.innerHTML = `
+      <div class="tile-glow"></div>
+      <div class="tile-top">
+        <div class="tile-icon">${ext.slice(0,4)}</div>
+        <div class="tile-size">${fmtSize(item.size)}</div>
       </div>
-      <div class="actions">
-        <a class="btn-dl" href="${item.download_url}" download="${item.name}">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-            <polyline points="7 10 12 15 17 10"/>
-            <line x1="12" y1="15" x2="12" y2="3"/>
-          </svg>
-          baixar
-        </a>
-      </div>
-      <div class="bar"></div>
+      <div class="tile-name">${item.name}</div>
+      <a class="tile-dl" href="${item.download_url}" download="${item.name}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+          <polyline points="7 10 12 15 17 10"/>
+          <line x1="12" y1="15" x2="12" y2="3"/>
+        </svg>
+        baixar
+      </a>
     `;
-    cardsList.appendChild(card);
+    cardsList.appendChild(tile);
     fileCount++;
+    totalBytes += item.size;
   }
 
   async function loadRepoFiles(){
