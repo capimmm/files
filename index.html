@@ -127,57 +127,6 @@
     line-height:1.6;
   }
 
-  /* ---------- dropzone ---------- */
-  .dropzone{
-    position:relative;
-    border:1.5px dashed var(--border);
-    border-radius:var(--radius);
-    background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
-    backdrop-filter:blur(20px);
-    -webkit-backdrop-filter:blur(20px);
-    padding:56px 32px;
-    text-align:center;
-    cursor:pointer;
-    transition:border-color .25s ease, background .25s ease, transform .2s ease;
-  }
-  .dropzone:hover{
-    border-color:var(--border-hover);
-  }
-  .dropzone.drag{
-    border-color:var(--accent);
-    background:var(--accent-dim);
-    transform:scale(1.005);
-  }
-
-  .dropzone .icon{
-    width:52px;height:52px;
-    margin:0 auto 18px;
-    border-radius:14px;
-    background:var(--panel-2);
-    border:1px solid var(--border);
-    display:flex;align-items:center;justify-content:center;
-    transition:transform .25s ease, border-color .25s ease;
-  }
-  .dropzone.drag .icon{
-    transform:translateY(-4px);
-    border-color:var(--accent);
-  }
-  .dropzone .icon svg{width:24px;height:24px;stroke:var(--accent);}
-
-  .dropzone h3{
-    font-size:16px;
-    font-weight:600;
-    margin-bottom:6px;
-  }
-  .dropzone p{
-    color:var(--text-faint);
-    font-size:13px;
-    font-family:var(--mono);
-  }
-  .dropzone p span{color:var(--text-dim);}
-
-  input[type=file]{display:none;}
-
   /* ---------- section label ---------- */
   .section-label{
     display:flex;
@@ -370,7 +319,6 @@
     .wrap{padding:40px 16px 90px;}
     .card{flex-wrap:wrap;}
     .card .actions{width:100%; justify-content:flex-end; margin-top:4px;}
-    .dropzone{padding:40px 18px;}
   }
 </style>
 </head>
@@ -404,27 +352,8 @@
     <div class="cards" id="cardsList"></div>
   </div>
 
-  <div class="section-label" style="margin-top:52px">
-    prévia local <span class="count-pill">só nesta aba</span>
-  </div>
-
-  <div class="dropzone" id="dropzone">
-    <div class="icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
-        <polyline points="17 8 12 3 7 8"/>
-        <line x1="12" y1="3" x2="12" y2="15"/>
-      </svg>
-    </div>
-    <h3>Arraste um arquivo aqui pra testar</h3>
-    <p>ou <span>clique para escolher</span> · .zip / .rar · <span style="color:var(--text-faint)">não é enviado a lugar nenhum</span></p>
-    <input type="file" id="fileInput" multiple accept=".zip,.rar">
-  </div>
-
-  <div class="cards" id="localCardsList" style="margin-top:12px"></div>
-
   <footer>
-    feito com <a href="#" onclick="return false">vault</a> · processamento 100% local no navegador
+    feito com <a href="#" onclick="return false">vault</a> · lista de arquivos sincronizada com o repositório
   </footer>
 
 </div>
